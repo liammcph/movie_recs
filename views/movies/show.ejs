@@ -1,0 +1,23 @@
+<!-- views/movies/show.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= movie.name %></title>
+  </head>
+  <body>
+  <h1><%= movie.name %></h1>
+  <% if (movie.haveSeen) { %>
+    <p>I have seen this movie!</p>
+  <% } else { %>
+    <p>I have not seen this movie!</p>
+  <% } %>
+  <form action="/movies/<%=movie._id%>?_method=DELETE" method="POST">
+  <button type="submit">Delete <%= movie.name %></button>
+</form>
+<a href="/movies/<%= movie._id %>/edit">Edit <%= movie.name %></a>
+<a href="/movies">Back to Movies</a>
+</body>
+</html>

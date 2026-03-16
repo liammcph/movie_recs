@@ -1,0 +1,21 @@
+<!-- views/movies/index.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movies Index</title>
+  </head>
+ <body>
+  <h1>All Movies</h1>
+  <ul>
+    <% movies.forEach(movie => { %>
+      <li>
+        <a href="/movies/<%= movie._id %>"> <%= movie.name %> </a>
+      </li>
+    <% }); %>
+  </ul>
+  <a href="/movies/new">Add New Movie</a>
+  </body>
+</html>
