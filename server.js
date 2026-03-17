@@ -7,6 +7,12 @@ const mongoose = require("mongoose");
 const app = express();
 const methodOverride = require("method-override");
 const morgan = require("morgan");
+const session = require('express-session');
+
+
+const port = process.env.PORT ? process.env.PORT : "3000";
+const authController = require("./controllers/auth.js");
+
 
 mongoose.connect(process.env.MONGODB_URI);
 
@@ -14,67 +20,113 @@ mongoose.connection.on("connected", () => {
   console.log(`Connected to MongoDB ${mongoose.connection.name}.`);
 });
 
+
+/* middleware */
 const Movie = require("./models/movie.js");
 app.use(express.urlencoded({ extended: false }));
 app.use(methodOverride("_method"));
 app.use(morgan("dev"));
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 
-
+app.listen(port, () => {
+  console.log(`The express app is ready on port ${port}!`);
+});
 
 
 // GET /
-app.get("/", async (req, res) => {
-  res.render("index.ejs");
+app.get("/", (req, res) => {
+  res.render("landing.ejs", {
+    user: req.session.user,
+  });
 });
+
+
+/* AUTH */
+app.use("/auth", authController);
+
 
 
 // GET /movies/new
 app.get("/movies/new", (req, res) => {
-  res.render("movies/new.ejs");
+  if (req.session.user) {
+    res.render("movies/new.ejs");
+  } else {
+    res.redirect("/");
+  }
 });
 
 app.get("/movies/:movieId", async (req, res) => {
-  const foundMovie = await Movie.findById(req.params.movieId);
-  res.render("movies/show.ejs", { movie: foundMovie });
+  if (req.session.user) {
+    const foundMovie = await Movie.findById(req.params.movieId);
+    res.render("movies/show.ejs", { movie: foundMovie });
+  } else {
+    res.redirect("/");
+  }
 });
 
 // POST /movies
 app.post("/movies", async (req, res) => {
-  req.body.rating = Number(req.body.rating);
-  await Movie.create(req.body);
-  res.redirect("/movies");
+  if (req.session.user) {
+    req.body.rating = Number(req.body.rating);
+    await Movie.create(req.body);
+    res.redirect("/movies");
+  } else {
+    res.redirect("/");
+  }
 });
 
 
 // GET /movies
 app.get("/movies", async (req, res) => {
-  const allMovies = await Movie.find();
-  res.render("movies/index.ejs", { movies: allMovies });
+  if (req.session.user) {
+    const allMovies = await Movie.find();
+    res.render("movies/index.ejs", { movies: allMovies });
+  } else {
+    res.redirect("/");
+  }
 });
 
 //delete
 app.delete("/movies/:movieId", async (req, res) => {
-  await Movie.findByIdAndDelete(req.params.movieId);
-  res.redirect("/movies");
+  if (req.session.user) {
+    await Movie.findByIdAndDelete(req.params.movieId);
+    res.redirect("/movies");
+  } else {
+    res.redirect("/");
+  }
 });
 
 // GET localhost:3000/movies/:movieId/edit
 app.get("/movies/:movieId/edit", async (req, res) => {
-  const foundMovie = await Movie.findById(req.params.movieId);
-  res.render("movies/edit.ejs", {
-    movie: foundMovie,
-  });
+  if (req.session.user) {
+    const foundMovie = await Movie.findById(req.params.movieId);
+    res.render("movies/edit.ejs", {
+      movie: foundMovie,
+    });
+  } else {
+    res.redirect("/");
+  }
 });
 
 app.put("/movies/:movieId", async (req, res) => {
-  req.body.rating = Number(req.body.rating);
-  await Movie.findByIdAndUpdate(req.params.movieId, req.body);
-
-  res.redirect(`/movies/${req.params.movieId}`);
+  if (req.session.user) {
+    req.body.rating = Number(req.body.rating);
+    await Movie.findByIdAndUpdate(req.params.movieId, req.body);
+    res.redirect(`/movies/${req.params.movieId}`);
+  } else {
+    res.redirect("/");
+  }
 });
 
 
 
-app.listen(3000, () => {
+/* app.listen(3000, () => {
   console.log("Listening on port 3000");
 });
+ */
