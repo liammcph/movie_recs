@@ -1,4 +1,4 @@
-<!-- views/movies/index.ejs -->
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -13,6 +13,14 @@
     <% movies.forEach(movie => { %>
       <li>
         <a href="/movies/<%= movie._id %>"> <%= movie.name %> </a>
+        - <%=
+          movie.rating === 6 ? '🤩All Time Fav🏆' :
+          movie.rating === 5 ? '😍Amazing🔥' :
+          movie.rating === 4 ? '😄Great⭐️' :
+          movie.rating === 3 ? '😐Solid👍' :
+          movie.rating === 2 ? '😕Not Great⚠️' :
+          movie.rating === 1 ? '🤢Horrible🗑️' : ''
+        %>
       </li>
     <% }); %>
   </ul>

@@ -1,4 +1,4 @@
-// server.js
+
 
 const dotenv = require("dotenv");
 dotenv.config();
@@ -9,7 +9,7 @@ const methodOverride = require("method-override");
 const morgan = require("morgan");
 
 mongoose.connect(process.env.MONGODB_URI);
-// log connection status to terminal on start
+
 mongoose.connection.on("connected", () => {
   console.log(`Connected to MongoDB ${mongoose.connection.name}.`);
 });
@@ -40,11 +40,7 @@ app.get("/movies/:movieId", async (req, res) => {
 
 // POST /movies
 app.post("/movies", async (req, res) => {
-  if (req.body.haveSeen === "on") {
-    req.body.haveSeen = true;
-  } else {
-    req.body.haveSeen = false;
-  }
+  req.body.rating = Number(req.body.rating);
   await Movie.create(req.body);
   res.redirect("/movies");
 });
@@ -71,12 +67,7 @@ app.get("/movies/:movieId/edit", async (req, res) => {
 });
 
 app.put("/movies/:movieId", async (req, res) => {
-  if (req.body.haveSeen === "on") {
-    req.body.haveSeen = true;
-  } else {
-    req.body.haveSeen = false;
-  }
-
+  req.body.rating = Number(req.body.rating);
   await Movie.findByIdAndUpdate(req.params.movieId, req.body);
 
   res.redirect(`/movies/${req.params.movieId}`);

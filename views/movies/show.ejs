@@ -1,4 +1,4 @@
-<!-- views/movies/show.ejs -->
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -9,11 +9,15 @@
   </head>
   <body>
   <h1><%= movie.name %></h1>
-  <% if (movie.haveSeen) { %>
-    <p>I have seen this movie!</p>
-  <% } else { %>
-    <p>I have not seen this movie!</p>
-  <% } %>
+  <p>Rating: <%=
+    movie.rating === 6 ? '🤩All Time Fav🏆' :
+    movie.rating === 5 ? '😍Amazing🔥' :
+    movie.rating === 4 ? '😄Great⭐️' :
+    movie.rating === 3 ? '😐Solid👍' :
+    movie.rating === 2 ? '😕Not Great⚠️' :
+    movie.rating === 1 ? '🤢Horrible🗑️' : 'No rating'
+  %></p>
+  <p><%= movie.review %></p>
   <form action="/movies/<%=movie._id%>?_method=DELETE" method="POST">
   <button type="submit">Delete <%= movie.name %></button>
 </form>

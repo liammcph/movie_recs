@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 
 const movieSchema = new mongoose.Schema({
   name: String,
-  haveSeen: Boolean,
+  rating: Number,
+  review: String,
 });
 
 const Movie = mongoose.model("Movie", movieSchema);

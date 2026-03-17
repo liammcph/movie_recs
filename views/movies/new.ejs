@@ -1,14 +1,23 @@
-<!-- views/movies/new.ejs -->
+
 
 <body>
-  <h1>Create a New Movie!</h1>
+  <h1>Review a Movie!</h1>
   <form action="/movies" method="POST">
     <label for="name">Name:</label>
     <input type="text" name="name" id="name" />
 
-    <label for="haveSeen">Have Seen?</label>
-    <input type="checkbox" name="haveSeen" id="haveSeen" />
-
+   <div>
+    <label for="rating">select score:</label>
+    <select id="rating" name="rating">
+      <option value="6">🤩All Time Fav🏆</option>
+      <option value="5">😍Amazing🔥</option>
+      <option value="4">😄Great⭐️</option>
+      <option value="3">😐Solid👍</option>
+      <option value="2">😕Not Great⚠️</option>
+      <option value="1">🤢Horrible🗑️</option>
+    </select>
+  </div>
+  <textarea id="reviewtext" name="review"></textarea>
     <button type="submit">Add Movie</button>
   </form>
   <a href="/movies/">Back to Movies</a>

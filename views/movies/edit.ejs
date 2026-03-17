@@ -4,8 +4,18 @@
     <label for="name">Name:</label>
     <input type="text" name="name" value="<%= movie.name %>" />
 
-    <label for="haveSeen">Have Seen?</label>
-    <input type="checkbox" name="haveSeen" <% if (movie.haveSeen) { %>checked<% } %> >
+    <div>
+      <label for="rating">Select score:</label>
+      <select id="rating" name="rating">
+        <option value="6" <%= movie.rating === 6 ? 'selected' : '' %>>🤩All Time Fav🏆</option>
+        <option value="5" <%= movie.rating === 5 ? 'selected' : '' %>>😍Amazing🔥</option>
+        <option value="4" <%= movie.rating === 4 ? 'selected' : '' %>>😄Great⭐️</option>
+        <option value="3" <%= movie.rating === 3 ? 'selected' : '' %>>😐Solid👍</option>
+        <option value="2" <%= movie.rating === 2 ? 'selected' : '' %>>😕Not Great⚠️</option>
+        <option value="1" <%= movie.rating === 1 ? 'selected' : '' %>>🤢Horrible🗑️</option>
+      </select>
+    </div>
+    <textarea id="reviewtext" name="review"><%= movie.review %></textarea>
     <button type="submit">Update Movie</button>
   </form>
   <a href="/movies">Back to Movies</a>
