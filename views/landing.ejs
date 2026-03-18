@@ -5,17 +5,30 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Movies App</title>
+    <title>Moviecure</title>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+      body { background-color: #F8F9FA; color: #222222; font-family: 'Roboto', sans-serif; display: flex; flex-direction: column; min-height: 100vh; margin: 0; padding: 24px; box-sizing: border-box; }
+      header h1 { font-family: 'Anton', sans-serif; color: #5B21B6; }
+      form { display: flex; flex-direction: column; gap: 12px; max-width: 400px; }
+      a, button { color: #5B21B6; background: none; border: 1px solid #5B21B6; padding: 6px 14px; text-decoration: none; font-family: 'Roboto', sans-serif; cursor: pointer; font-size: 14px; align-self: flex-start; }
+    </style>
   </head>
   <body>
+    <header>
+      <h1>Moviecure</h1>
+    </header>
     <% if (user) { %>
-      <h1>Welcome to the Movies app, <%= user.username %>!</h1>
-      <p>An app for collecting your favorite movies.</p>
-      <a href="/movies">Browse Movies</a>
-      <a href="/movies/new">Add New Movie</a>
+      <h1>Welcome <%= user.username %></h1>
+      <p>Review your favorite movies and get recommended critics with similar taste.</p>
+      <a href="/movies">My Reviews</a>
+      <a href="/movies/new">Add New Review</a>
+      <a href="/recommendations">My Recommendations</a>
       <a href="/auth/sign-out">Sign out</a>
     <% } else { %>
-      <h1>Welcome to the Movies app, guest.</h1>
+      <h1>Login or signup to view movies.</h1>
+      <p>Review your favorite movies and get recommended critics with similar taste.</p>
       <p>
         <a href="/auth/sign-up">Sign up</a> or <a href="/auth/sign-in">Sign in</a>.
       </p>

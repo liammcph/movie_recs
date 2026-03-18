@@ -1,4 +1,15 @@
+<link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  body { background-color: #F8F9FA; color: #222222; font-family: 'Roboto', sans-serif; display: flex; flex-direction: column; min-height: 100vh; margin: 0; padding: 24px; box-sizing: border-box; }
+  header h1 { font-family: 'Anton', sans-serif; color: #5B21B6; }
+  form { display: flex; flex-direction: column; gap: 12px; max-width: 400px; }
+  a, button { color: #5B21B6; background: none; border: 1px solid #5B21B6; padding: 6px 14px; text-decoration: none; font-family: 'Roboto', sans-serif; cursor: pointer; font-size: 14px; align-self: flex-start; }
+</style>
 <body>
+  <header>
+    <h1>Moviecure</h1>
+  </header>
   <h1>Edit <%= movie.name %></h1>
     <form action="/movies/<%=movie._id%>?_method=PUT" method="POST">
     <label for="name">Name:</label>
@@ -18,5 +29,5 @@
     <textarea id="reviewtext" name="review"><%= movie.review %></textarea>
     <button type="submit">Update Movie</button>
   </form>
-  <a href="/movies">Back to Movies</a>
+  <a href="/movies">Back to My Reviews</a>
 </body>

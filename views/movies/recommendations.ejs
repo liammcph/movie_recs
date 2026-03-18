@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Recommendations</title>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+      body { background-color: #F8F9FA; color: #222222; font-family: 'Roboto', sans-serif; display: flex; flex-direction: column; min-height: 100vh; margin: 0; padding: 24px; box-sizing: border-box; }
+      header h1 { font-family: 'Anton', sans-serif; color: #5B21B6; }
+      h2 { font-family: 'Anton', sans-serif; color: #222222; margin-bottom: 24px; }
+      a, button { color: #5B21B6; background: none; border: 1px solid #5B21B6; padding: 6px 14px; text-decoration: none; font-family: 'Roboto', sans-serif; cursor: pointer; font-size: 14px; align-self: flex-start; }
+      .rec-section { display: flex; flex-direction: column; gap: 32px; margin-top: 16px; }
+      .rec-card { display: flex; align-items: flex-start; gap: 20px; }
+      .rec-card img { width: 120px; height: 160px; object-fit: cover; border: 2px solid #5B21B6; }
+      .rec-card .info { display: flex; flex-direction: column; gap: 6px; }
+      .rec-card .label { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #5B21B6; font-weight: 700; }
+      .rec-card .title { font-family: 'Anton', sans-serif; font-size: 22px; }
+      .nav { display: flex; gap: 12px; margin-top: 32px; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Moviecure</h1>
+    </header>
+    <h2>My Recommendations</h2>
+    <div class="rec-section">
+      <div class="rec-card">
+        <img src="/images/Antonego.jpeg" alt="Anton Ego" />
+        <div class="info">
+          <span class="label">Critic with similar taste</span>
+          <span class="title">Anton Ego</span>
+        </div>
+      </div>
+      <div class="rec-card">
+        <img src="/images/ratatouille.jpeg" alt="Ratatouille" />
+        <div class="info">
+          <span class="label">They recommend</span>
+          <span class="title">Ratatouille</span>
+          <% if (topMovie) { %>
+            <span class="label" style="margin-top: 12px;">You both love</span>
+            <span class="title"><%= topMovie.name %></span>
+          <% } %>
+        </div>
+      </div>
+    </div>
+    <div class="nav">
+      <a href="/">Home</a>
+      <a href="/movies">My Reviews</a>
+      <a href="/auth/sign-out">Sign out</a>
+    </div>
+  </body>
+</html>

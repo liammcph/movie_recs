@@ -22,7 +22,8 @@ mongoose.connection.on("connected", () => {
 
 
 /* middleware */
-const Movie = require("./models/movie.js");
+const Movie = require("./models/moviereview.js");
+app.use("/images", express.static("images"));
 app.use(express.urlencoded({ extended: false }));
 app.use(methodOverride("_method"));
 app.use(morgan("dev"));
@@ -53,9 +54,10 @@ app.use("/auth", authController);
 
 
 // GET /movies/new
-app.get("/movies/new", (req, res) => {
+app.get("/movies/new", async (req, res) => {
   if (req.session.user) {
-    res.render("movies/new.ejs");
+    const reviewCount = await Movie.countDocuments({ assignee: req.session.user._id });
+    res.render("movies/new.ejs", { reviewCount });
   } else {
     res.redirect("/");
   }
@@ -74,6 +76,7 @@ app.get("/movies/:movieId", async (req, res) => {
 app.post("/movies", async (req, res) => {
   if (req.session.user) {
     req.body.rating = Number(req.body.rating);
+    req.body.assignee = req.session.user._id;
     await Movie.create(req.body);
     res.redirect("/movies");
   } else {
@@ -85,7 +88,7 @@ app.post("/movies", async (req, res) => {
 // GET /movies
 app.get("/movies", async (req, res) => {
   if (req.session.user) {
-    const allMovies = await Movie.find();
+    const allMovies = await Movie.find({ assignee: req.session.user._id });
     res.render("movies/index.ejs", { movies: allMovies });
   } else {
     res.redirect("/");
@@ -125,6 +128,16 @@ app.put("/movies/:movieId", async (req, res) => {
 });
 
 
+
+// GET /recommendations
+app.get("/recommendations", async (req, res) => {
+  if (req.session.user) {
+    const topMovie = await Movie.findOne({ assignee: req.session.user._id }).sort({ rating: -1 });
+    res.render("movies/recommendations.ejs", { topMovie });
+  } else {
+    res.redirect("/");
+  }
+});
 
 /* app.listen(3000, () => {
   console.log("Listening on port 3000");
